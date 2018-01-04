@@ -6,6 +6,14 @@ router.get('/new', (request, response) => {
   response.render('contacts/new')
 })
 
+router.get('/sign-up', (req, res, next) => {
+  res.render('contacts/sign-up')
+})
+
+router.get('/login', (req, res, next) => {
+  res.render('contacts/login')
+})
+
 router.post('/', (request, response, next) => {
   contacts.create(request.body)
     .then(function(contact) {
@@ -46,5 +54,6 @@ router.get('/search', (request, response, next) => {
     })
     .catch( error => next(error) )
 })
+
 
 module.exports = router
