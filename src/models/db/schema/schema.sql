@@ -13,3 +13,9 @@ CREATE TABLE users (
   email  VARCHAR(255) NOT NULL,
   password  VARCHAR(255) NOT NULL
 )
+
+CREATE TABLE session (
+  "sid" VARCHAR NOT NULL,
+  "sess" JSON NOT NULL,
+  "expire" TIMESTAMP(6) NOT NULL
+)
