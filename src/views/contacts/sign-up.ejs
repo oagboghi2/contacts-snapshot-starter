@@ -11,6 +11,8 @@
     <p>Existing user? <a href='./login'>Login</a></p>
   </div>
 
-
+  <% if(counter > 0){ %>
+          <h6> <%= message %> </h6>
+        <% } %> 
 
 <%- include ../partials/footer.ejs %>

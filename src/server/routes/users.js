@@ -23,7 +23,7 @@ router.post('/sign-up', (req, res, next) => {
   getUserByEmail(email)
   .then((user) => {
     if(user) {
-      res.render('login', {message:'User already exists. Please login'})
+      res.render('contacts/login', {message:'User already exists. Please login'})
     } else {
       bcrypt.hash(password, saltRounds)
         .then(function(hash) {
@@ -38,5 +38,24 @@ router.post('/sign-up', (req, res, next) => {
   })
   .catch(console.error)
 })
+
+router.post('/login', (req, res, next) => {
+  console.log('sending login info to server')
+  const { email, password } = req.body
+  var counter = 0
+
+  getUserByEmail(email)
+  .then((user) => {
+    console.log(user)
+    if(user === null) {
+      counter += 1
+      res.render('contacts/sign-up',  { counter, message:'User does not exist. Please sign up and try again.'})
+    } else {
+      res.redirect('/')
+    }
+  })
+  .catch(console.error)
+})
+
 
 module.exports = router
