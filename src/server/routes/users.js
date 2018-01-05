@@ -9,7 +9,7 @@ router.get('/new', (req, res) => {
 })
 
 router.get('/sign-up', (req, res, next) => {
-  res.render('contacts/sign-up')
+  res.render('contacts/sign-up', { counter:0 })
 })
 
 router.get('/login', (req, res, next) => {
@@ -20,7 +20,7 @@ router.post('/sign-up', (req, res, next) => {
   console.log('sending to database')
   const { name, email, password } = req.body
 
-  getUserByEmail(email)
+  getUserByEmail(email, password)
   .then((user) => {
     if(user) {
       res.render('contacts/login', {message:'User already exists. Please login'})
@@ -29,7 +29,7 @@ router.post('/sign-up', (req, res, next) => {
         .then(function(hash) {
           register(name, email, hash)
           .then((user) => {
-            res.send('You are signed up!')
+            res.redirect('/users/login')
           })
           .catch(console.error)
         })
@@ -44,7 +44,7 @@ router.post('/login', (req, res, next) => {
   const { email, password } = req.body
   var counter = 0
 
-  getUserByEmail(email)
+  getUserByEmail(email, password)
   .then((user) => {
     console.log(user)
     if(user === null) {
