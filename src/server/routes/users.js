@@ -20,7 +20,7 @@ router.post('/sign-up', (req, res, next) => {
   console.log('sending to database')
   const { name, email, password } = req.body
 
-  getUserByEmail(email, password)
+  getUserByEmail(email)
   .then((user) => {
     if(user) {
       res.render('contacts/login', {message:'User already exists. Please login'})
