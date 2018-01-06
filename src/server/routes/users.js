@@ -44,9 +44,14 @@ router.post('/login', (req, res, next) => {
   const { email, password } = req.body
   var counter = 0
 
-  getUserByEmail(email, password)
-  .then((user) => {
+  getUserByEmail(email)
+  .then(async(user) => {
     console.log(user)
+
+    const passwordMatch = await bcrypt.compare(password, user.password)
+
+    console.log(passwordMatch);
+
     if(user === null) {
       counter += 1
       res.render('contacts/sign-up',  { counter, message:'User does not exist. Please sign up and try again.'})
