@@ -1,12 +1,21 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const app = express()
 const methodOverride = require('method-override')
 const routes = require('./server/routes');
 const middlewares = require('./server/middlewares');
 
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views')
+
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+}))
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
