@@ -5,9 +5,18 @@ const contacts = require('../../models/contacts');
 const middlewares = require('../middlewares');
 
 
-router.get('/', (request, response, next) => {
+router.get('/home', (req, res, next) => {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
+  if ( !req.session.views){
+    req.session.views = 1;
+  }else{
+    req.session.views += 1;
+  }
+  console.log("count of views " + req.session.views);
+
   contacts.findAll()
-    .then((contacts) => {response.render('contacts/index', { contacts })})
+    .then((contacts) => {res.render('contacts/index', { contacts, message: null })})
     .catch( error => next(error) )
 })
 

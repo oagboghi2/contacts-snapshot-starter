@@ -11,13 +11,15 @@ CREATE TABLE contacts (
 CREATE TABLE users (
   id serial,
   name  VARCHAR(255) NOT NULL,
-  email  VARCHAR(255) NOT NULL,
+  email  VARCHAR(255) NOT NULL UNIQUE,
   password  VARCHAR(255) NOT NULL,
   role VARCHAR DEFAULT 'regular'
 );
 
-CREATE TABLE session (
-  "sid" VARCHAR NOT NULL,
-  "sess" JSON NOT NULL,
-  "expire" TIMESTAMP(6) NOT NULL
-);
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+	"sess" json NOT NULL,
+	"expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;

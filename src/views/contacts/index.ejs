@@ -1,7 +1,11 @@
 <%- include ../partials/header.ejs %>
 
   <h1>Contacts</h1>
-
+  <div>
+    <h6>
+      <%= message %>
+    </h6>
+  </div>
   <div class="contact-list">
     <% contacts.forEach(function(contact){ %>
       <div class="contact-list-member">
