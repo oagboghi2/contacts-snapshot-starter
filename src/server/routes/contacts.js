@@ -2,9 +2,6 @@ const contacts = require('../../models/contacts')
 
 const router = require('express').Router()
 
-router.get('/new', (request, response) => {
-  response.render('contacts/new')
-})
 
 router.post('/', (request, response, next) => {
   contacts.create(request.body)
@@ -46,5 +43,6 @@ router.get('/search', (request, response, next) => {
     })
     .catch( error => next(error) )
 })
+
 
 module.exports = router
