@@ -2,7 +2,6 @@ const db = require('./db')
 
 const getUserByEmail = function(email){
   console.log('I have the email:', email);
-  //console.log('I have the admin:', admin);
   return db.oneOrNone('SELECT * FROM users WHERE email = $1', [email])
 }
 
