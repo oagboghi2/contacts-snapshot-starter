@@ -122,6 +122,7 @@ router.post('/login', (req, res, next) => {
     console.log(passwordMatch);
 
     if(userData === null) {
+
       counter += 1
       res.render('contacts/sign-up',  { counter, message:'User does not exist. Please sign up and try again.'})
     } else {
