@@ -21,6 +21,7 @@ console.log("count of views " + req.session.views);
 router.get('/sign-up', (req, res, next) => {
   console.log(req.user);
   console.log(req.isAuthenticated());
+  var errors;
   if ( !req.session.views){
     req.session.views = 1;
   }else{
@@ -28,10 +29,11 @@ router.get('/sign-up', (req, res, next) => {
   }
   console.log("count of views " + req.session.views);
 
-  res.render('contacts/sign-up', { counter:0 });
+  res.render('contacts/sign-up', { counter:0, errors: errors });
 });
 
 router.get('/login', (req, res, next) => {
+  var errors;
   console.log(req.user);
   console.log(req.isAuthenticated());
   if ( !req.session.views){
@@ -42,7 +44,7 @@ router.get('/login', (req, res, next) => {
   console.log("count of views " + req.session.views);
 
 
-  res.render('contacts/login');
+  res.render('contacts/login', { errors: errors });
 });
 
 router.get('/logout', (req,res,next) =>{
@@ -58,16 +60,15 @@ router.post('/sign-up', (req, res, next) => {
   const { name, email, password } = req.body;
   const { id } = req.body;
 
-req.checkBody('name', 'name field cannot be empty.').notEmpty();
 req.checkBody('name', 'name must be between 4-15 characters long.').len(4, 15);
-req.checkBody('email', 'The email you entered is invalid, please try again.').isEmail();
 req.checkBody('email', 'Email address must be between 4-100 characters long, please try again.').len(4, 100);
 req.checkBody('password', 'Password must be between 3-100 characters long.').len(3, 100);
 
   var errors = req.validationErrors();
   if (errors) {
-    console.log(errors);
-    return res.render('contacts/sign-up');
+    //console.log(errors);
+    console.log(errors[0].msg);
+    return res.render('contacts/sign-up', { errors: errors[0].msg });
   } else {
     // normal processing here
   };
@@ -102,14 +103,13 @@ router.post('/login', (req, res, next) => {
   const { id } = req.body
   var counter = 0
 
-  req.checkBody('email', 'The email you entered is invalid, please try again.').isEmail();
   req.checkBody('email', 'Email address must be between 4-100 characters long, please try again.').len(4, 100);
   req.checkBody('password', 'Password must be between 3-100 characters long.').len(3, 100);
 
     var errors = req.validationErrors();
     if (errors) {
-      console.log(errors);
-      return res.render('contacts/login');
+      console.log(errors[0].msg);
+      return res.render('contacts/login', { errors: errors[0].msg });
     } else {
       // normal processing here
     };
@@ -142,9 +142,16 @@ passport.serializeUser(function(user_id, done) {
   done(null, user_id);
 });
 
+//serializeUser determines, which data of the user object should be stored in the session.
+//The result of the serializeUser method is attached to the session as req.session.passport.user = {}.
+
 passport.deserializeUser(function(user_id, done) {
     done(null, user_id);
 });
+
+//The first argument of deserializeUser corresponds to the key of the user object that was given to the done function.
+//That key here is the user id (key can be any key of the user object i.e. name,email etc).
+//In deserializeUser that key is matched with the in memory array / database or any data resource.
 
 function authenticationMiddleware(){
 	return (req, res, next) => {
