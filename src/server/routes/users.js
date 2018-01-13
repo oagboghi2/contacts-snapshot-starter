@@ -76,18 +76,19 @@ req.checkBody('password', 'Password must be between 3-100 characters long.').len
   getUserByEmail(email, password, )
   .then((user) => {
     if(user) {
-      res.render('contacts/login', {message:'User already exists. Please login'})
+      res.render('contacts/login', { errors: errors, message:'User already exists. Please login' })
     } else {
       bcrypt.hash(password, saltRounds)
         .then(function(hash) {
           register(name, email, hash)
           .then((userData) => {
+            console.log(userData);
             var user_id = userData.id;
             console.log("testing: This is user_id " + user_id);
             //login() comes directly from passport.js, and this creates a session for the user
             //, and it's going to update it with whatever information we pass through to it.
             req.login(Number(user_id), function(error){
-              res.redirect('/home')
+              res.redirect('/home', { errors: errors })
             })
           })
         })
