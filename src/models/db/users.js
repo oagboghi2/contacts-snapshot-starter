@@ -2,7 +2,6 @@ const db = require('./db')
 
 const getUserByEmail = function(email){
   console.log('I have the email:', email);
-  //console.log('I have the admin:', admin);
   return db.oneOrNone('SELECT * FROM users WHERE email = $1', [email])
 }
 
@@ -14,8 +13,5 @@ const login = function(email){
   return db.one('INSERT INTO users (email) VALUES ($1) RETURNING id', [ email ])
 }
 
-const killSession = function(email){
-  return db.one('INSERT INTO users (email) VALUES ($1) RETURNING id', [ email ])
-}
 
-module.exports = { register, getUserByEmail, login, killSession}
+module.exports = { register, getUserByEmail, login}

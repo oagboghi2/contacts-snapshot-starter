@@ -8,15 +8,21 @@ const middlewares = require('../middlewares');
 router.get('/home', (req, res, next) => {
   console.log(req.user);
   console.log(req.isAuthenticated());
-  if ( !req.session.views){
-    req.session.views = 1;
+  // if ( !req.session.views){
+  //   req.session.views = 1;
+  // }else{
+  //   req.session.views += 1;
+  // }
+
+  if(req.isAuthenticated == true){
+    var loggedIn = "Active"
   }else{
-    req.session.views += 1;
+    var loggedIn;
   }
   console.log("count of views " + req.session.views);
 
   contacts.findAll()
-    .then((contacts) => {res.render('contacts/index', { contacts, message: null })})
+    .then((contacts) => {res.render('contacts/index', { loggedIn: loggedIn, contacts, message: null })})
     .catch( error => next(error) )
 })
 

@@ -7,7 +7,13 @@
       <input type="email" name="email" placeholder="email" required>
       <input type="password" name="password" placeholder="password" required>
       <input style="margin-top:5px" type="submit" value="sign up">
+
     </form>
+    <% if(errors){ %>
+      <p><%= errors %></p>
+      <% } else{ %>
+        <h1></h1>
+     <% } %>
     <p>Existing user? <a href='./login'>Login</a></p>
   </div>
 
